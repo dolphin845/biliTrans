@@ -44,14 +44,19 @@ public class Main {
 
         int readByte;
         int zeroSize = 0;
-        while((readByte = dataInputStream.readByte()) == 0x30){
+        while ((readByte = dataInputStream.readByte()) == 0x30) {
             zeroSize++;
         }
         dataOutputStream.write(readByte);
-        byte[] bytes = new byte[(int)inputFile.length() - zeroSize - 1];
-
-        dataInputStream.read(bytes);
-        dataOutputStream.write(bytes);
+        byte[] byteBuff = new byte[1024];
+        while (dataInputStream.read(byteBuff) != -1) {
+            dataOutputStream.write(byteBuff);
+            dataOutputStream.flush();
+        }
+//        byte[] bytes = new byte[(int) inputFile.length() - zeroSize - 1];
+//
+//        dataInputStream.read(bytes);
+//        dataOutputStream.write(bytes);
 
         dataOutputStream.close();
         fileOutputStream.close();
@@ -69,7 +74,7 @@ public class Main {
                     boolean transe = false;
                     String cmd = "";
                     File outputFile;
-                    String video  ="";
+                    String video = "";
                     String audio = "";
                     File[] subFiles = f.listFiles();
                     String fileName = "";
@@ -77,13 +82,13 @@ public class Main {
 //                        System.out.println(subFile);
                         if (subFile.getName().contains("30080.m4s") || subFile.getName().contains("30032.m4s")) {
                             transe = true;
-                            outputFile = new File(subFile.getParent() + "\\video.m4s");
+                            outputFile = new File(subFile.getParent() + File.separator + "video.m4s");
                             video = outputFile.getAbsolutePath();
                             readToNewFile(subFile, outputFile);
                             System.out.println("video: " + outputFile.getAbsolutePath());
                         }
                         if (subFile.getName().contains("30280.m4s")) {
-                            outputFile = new File(subFile.getParent() + "\\audio.m4s");
+                            outputFile = new File(subFile.getParent() + File.separator + "audio.m4s");
                             audio = outputFile.getAbsolutePath();
                             readToNewFile(subFile, outputFile);
                             System.out.println("audio: " + audio);
@@ -93,12 +98,12 @@ public class Main {
                             Gson gson = new Gson();
                             VideoInfo videoInfo = gson.fromJson(fileContent, VideoInfo.class);
                             String groupTitle = videoInfo.getGroupTitle();
-                            String folderName = subFile.getParent().substring(0, subFile.getParent().lastIndexOf('\\')) + "\\" + groupTitle;
+                            String folderName = subFile.getParent().substring(0, subFile.getParent().lastIndexOf(File.separator)) + File.separator + groupTitle;
                             File folder = new File(folderName);
                             if (!folder.exists()) {
                                 folder.mkdir();
                             }
-                            fileName = folderName + "\\" + videoInfo.getTitle();
+                            fileName = folderName + File.separator + videoInfo.getTitle();
                         }
                     }
                     if (!new File(fileName).exists()) {
