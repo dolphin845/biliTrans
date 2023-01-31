@@ -8,9 +8,11 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.StringTokenizer;
 
 public class Main {
 
+    private static final String specialCharacter = "|囧⊙●○⊕◎Θ⊙¤㈱㊣★☆♀◆◇◣◢◥▲▼△▽⊿◤ ◥ ▂ ▃ ▄ ▅ ▆ ▇ █ █ ■ ▓";
 
     public static void main(String[] args) {
         if (args.length != 1) {
@@ -29,6 +31,21 @@ public class Main {
             e.printStackTrace();
         }
 
+    }
+
+    public static String deleteSpecialCharacter(String strDelete) {
+        String str = "";
+        try {
+            StringTokenizer st1 = new StringTokenizer(strDelete);
+
+            while (st1.hasMoreTokens()) {
+                str = str + st1.nextToken(specialCharacter);
+            }
+            str = str.trim();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return str;
     }
 
     private static String readFromFile(String filePath) throws IOException {
@@ -80,7 +97,7 @@ public class Main {
                     String fileName = "";
                     for (File subFile : subFiles) {
 //                        System.out.println(subFile);
-                        if (subFile.getName().contains("30080.m4s") || subFile.getName().contains("30032.m4s")) {
+                        if (subFile.getName().contains("30080.m4s") || subFile.getName().contains("30032.m4s") || subFile.getName().contains("30064.m4s")) {
                             transe = true;
                             outputFile = new File(subFile.getParent() + File.separator + "video.m4s");
                             video = outputFile.getAbsolutePath();
@@ -99,6 +116,7 @@ public class Main {
                             VideoInfo videoInfo = gson.fromJson(fileContent, VideoInfo.class);
                             String groupTitle = videoInfo.getGroupTitle();
                             String folderName = subFile.getParent().substring(0, subFile.getParent().lastIndexOf(File.separator)) + File.separator + groupTitle;
+                            folderName = deleteSpecialCharacter(folderName);
                             File folder = new File(folderName);
                             if (!folder.exists()) {
                                 folder.mkdir();
