@@ -128,7 +128,15 @@ public class Main {
                         cmd = "ffmpeg -i " + video + " -i " + audio + " -codec copy \"" + fileName + ".mp4\"";
                         if (transe) {
                             try {
-                                Runtime.getRuntime().exec(cmd);
+                                String check = CheckSystem.check();
+                                if (check.equals("Mac")) {
+                                    ProcessBuilder pb = new ProcessBuilder("/bin/bash", "-c", "ffmpeg -i " + video + " -i " + audio + " -codec copy \"" + fileName + ".mp4\"");
+                                    pb.directory(new File(file.getPath()));
+                                    Process proc = pb.start();
+                                }
+                                else{
+                                    Runtime.getRuntime().exec(cmd);
+                                }
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
