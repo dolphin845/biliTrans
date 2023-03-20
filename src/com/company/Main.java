@@ -12,7 +12,7 @@ import java.util.StringTokenizer;
 
 public class Main {
 
-    private static final String specialCharacter = "|囧⊙●○⊕◎Θ⊙¤㈱㊣★☆♀◆◇◣◢◥▲▼△▽⊿◤ ◥ ▂ ▃ ▄ ▅ ▆ ▇ █ █ ■ ▓";
+    private static final String specialCharacter = "|囧⊙●○⊕◎Θ⊙¤㈱㊣★☆♀◆◇◣◢◥▲▼△▽⊿◤ ◥ ▂ ▃ ▄ ▅ ▆ ▇ █ █ ■ ▓/";
 
     public static void main(String[] args) {
         if (args.length != 1) {
@@ -121,7 +121,7 @@ public class Main {
                             if (!folder.exists()) {
                                 folder.mkdir();
                             }
-                            fileName = folderName + File.separator + videoInfo.getTitle();
+                            fileName = folderName + File.separator + deleteSpecialCharacter(videoInfo.getTitle());
                         }
                     }
                     if (!new File(fileName).exists()) {
