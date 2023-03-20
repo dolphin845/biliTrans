@@ -12,7 +12,8 @@ import java.util.StringTokenizer;
 
 public class Main {
 
-    private static final String specialCharacter = "|囧⊙●○⊕◎Θ⊙¤㈱㊣★☆♀◆◇◣◢◥▲▼△▽⊿◤ ◥ ▂ ▃ ▄ ▅ ▆ ▇ █ █ ■ ▓/";
+    private static final String folderSpecialCharacter = "|囧⊙●○⊕◎Θ⊙¤㈱㊣★☆♀◆◇◣◢◥▲▼△▽⊿◤ ◥ ▂ ▃ ▄ ▅ ▆ ▇ █ █ ■ ▓";
+    private static final String fileSpecialCharacter = "|囧⊙●○⊕◎Θ⊙¤㈱㊣★☆♀◆◇◣◢◥▲▼△▽⊿◤ ◥ ▂ ▃ ▄ ▅ ▆ ▇ █ █ ■ ▓/";
 
     public static void main(String[] args) {
         if (args.length != 1) {
@@ -33,13 +34,19 @@ public class Main {
 
     }
 
-    public static String deleteSpecialCharacter(String strDelete) {
+    public static String deleteSpecialCharacter(String strDelete, targetType type) {
         String str = "";
+        String special = "";
+        if (type == targetType.FOLDER) {
+            special = folderSpecialCharacter;
+        } else {
+            special = fileSpecialCharacter;
+        }
         try {
             StringTokenizer st1 = new StringTokenizer(strDelete);
 
             while (st1.hasMoreTokens()) {
-                str = str + st1.nextToken(specialCharacter);
+                str = str + st1.nextToken(special);
             }
             str = str.trim();
         } catch (Exception e) {
@@ -47,6 +54,8 @@ public class Main {
         }
         return str;
     }
+
+
 
     private static String readFromFile(String filePath) throws IOException {
         byte[] bytes = Files.readAllBytes(Paths.get(filePath));
@@ -116,12 +125,12 @@ public class Main {
                             VideoInfo videoInfo = gson.fromJson(fileContent, VideoInfo.class);
                             String groupTitle = videoInfo.getGroupTitle();
                             String folderName = subFile.getParent().substring(0, subFile.getParent().lastIndexOf(File.separator)) + File.separator + groupTitle;
-                            folderName = deleteSpecialCharacter(folderName);
+                            folderName = deleteSpecialCharacter(folderName, targetType.FOLDER);
                             File folder = new File(folderName);
                             if (!folder.exists()) {
                                 folder.mkdir();
                             }
-                            fileName = folderName + File.separator + deleteSpecialCharacter(videoInfo.getTitle());
+                            fileName = folderName + File.separator + deleteSpecialCharacter(videoInfo.getTitle(), targetType.FILE);
                         }
                     }
                     if (!new File(fileName).exists()) {
