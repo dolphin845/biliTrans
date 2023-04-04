@@ -56,7 +56,6 @@ public class Main {
     }
 
 
-
     private static String readFromFile(String filePath) throws IOException {
         byte[] bytes = Files.readAllBytes(Paths.get(filePath));
         return new String(bytes);
@@ -130,7 +129,11 @@ public class Main {
                             if (!folder.exists()) {
                                 folder.mkdir();
                             }
-                            fileName = folderName + File.separator + deleteSpecialCharacter(videoInfo.getTitle(), targetType.FILE);
+                            if (groupTitle.equals(videoInfo.getTitle())) {
+                                fileName = folderName + File.separator + deleteSpecialCharacter(videoInfo.getTitle(), targetType.FILE);
+                            } else {
+                                fileName = folderName + File.separator + "P" + videoInfo.getP() + " " + deleteSpecialCharacter(videoInfo.getTitle(), targetType.FILE);
+                            }
                         }
                     }
                     if (!new File(fileName).exists()) {
@@ -142,8 +145,7 @@ public class Main {
                                     ProcessBuilder pb = new ProcessBuilder("/bin/bash", "-c", "ffmpeg -i " + video + " -i " + audio + " -codec copy \"" + fileName + ".mp4\"");
                                     pb.directory(new File(file.getPath()));
                                     Process proc = pb.start();
-                                }
-                                else{
+                                } else {
                                     Runtime.getRuntime().exec(cmd);
                                 }
                             } catch (IOException e) {
