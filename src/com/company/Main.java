@@ -12,8 +12,8 @@ import java.util.StringTokenizer;
 
 public class Main {
 
-    private static final String folderSpecialCharacter = "|囧⊙●○⊕◎Θ⊙¤㈱㊣★☆♀◆◇◣◢◥▲▼△▽⊿◤ ◥ ▂ ▃ ▄ ▅ ▆ ▇ █ █ ■ ▓";
-    private static final String fileSpecialCharacter = "|囧⊙●○⊕◎Θ⊙¤㈱㊣★☆♀◆◇◣◢◥▲▼△▽⊿◤ ◥ ▂ ▃ ▄ ▅ ▆ ▇ █ █ ■ ▓/";
+    private static final String folderSpecialCharacter = "|囧⊙●○⊕◎Θ⊙¤㈱㊣★☆♀◆◇◣◢◥▲▼△▽⊿◤ ◥ ▂ ▃ ▄ ▅ ▆ ▇ █ █ ■ ▓《》/......（）【】";
+    private static final String fileSpecialCharacter = "|囧⊙●○⊕◎Θ⊙¤㈱㊣★☆♀◆◇◣◢◥▲▼△▽⊿◤ ◥ ▂ ▃ ▄ ▅ ▆ ▇ █ █ ■ ▓/《》（）【】";
 
     public static void main(String[] args) {
         if (args.length != 1) {
@@ -105,14 +105,14 @@ public class Main {
                     String fileName = "";
                     for (File subFile : subFiles) {
 //                        System.out.println(subFile);
-                        if (subFile.getName().contains("30080.m4s") || subFile.getName().contains("30032.m4s") || subFile.getName().contains("30064.m4s")) {
+                        if (subFile.getName().contains("30080.m4s") || subFile.getName().contains("30032.m4s") || subFile.getName().contains("30064.m4s") || subFile.getName().contains("30011.m4s") || subFile.getName().contains("30016.m4s")) {
                             transe = true;
                             outputFile = new File(subFile.getParent() + File.separator + "video.m4s");
                             video = outputFile.getAbsolutePath();
                             readToNewFile(subFile, outputFile);
                             System.out.println("video: " + outputFile.getAbsolutePath());
                         }
-                        if (subFile.getName().contains("30280.m4s")) {
+                        if (subFile.getName().contains("30280.m4s") || subFile.getName().contains("30216.m4s")) {
                             outputFile = new File(subFile.getParent() + File.separator + "audio.m4s");
                             audio = outputFile.getAbsolutePath();
                             readToNewFile(subFile, outputFile);
